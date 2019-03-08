@@ -1,6 +1,13 @@
 
 import {combineReducers} from 'redux';
-
+let _store = undefined;
+export const connect = (model) => {
+    if(_store) {
+        return _store.connect(model)
+    } else {
+        throw new Error('spirits 未初始化, 请先调用 spirits(store)')
+    }
+}
 export default (store, asyncReducers = {}) => {
     const injectReducer = (key, reducer) => {
         asyncReducers[key] = reducer;
@@ -54,4 +61,5 @@ export default (store, asyncReducers = {}) => {
         });
         return actions; // eslint-disable-line
     };
+    _store = store
 };
