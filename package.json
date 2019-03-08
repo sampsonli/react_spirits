@@ -1,7 +1,7 @@
 {
-  "name": "@react/avatar",
+  "name": "react-spirits",
   "version": "1.0.0",
-  "description": "react avatar 模块化",
+  "description": "react spirits redux 模块化",
   "main": "dist/index.js",
   "author": "sampsonli",
   "license": "MIT",

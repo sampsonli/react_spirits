@@ -1,4 +1,4 @@
-## react-avatar
+## react-spirits
 > 基于redux 进一步封装， 更方便使用， 同时结构更清晰
 ### 优势
 1. 模块化
@@ -11,12 +11,12 @@
 ## 使用方法
 1. 安装avatar
 ~~~bash
-yarn add @react/avatar
+yarn add react-spirits
 ~~~
 2. 获取store
 3. 注入avatar
 ~~~javascript
-import avatar from '@react/avatar';
+import avatar from 'react-spirits';
 const store = createStore();
 avatar(store, asyncReducers); // asyncReducers是老版本维护的所有reducer， 新开项目可以不用传
 ~~~
