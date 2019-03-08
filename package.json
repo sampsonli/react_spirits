@@ -6,7 +6,7 @@
   "author": "sampsonli",
   "license": "MIT",
   "scripts": {
-    "build": "babel index.js --out-dir dist"
+    "build": "babel src --out-dir dist"
   },
   "peerDependencies": {
     "redux": ">=2.0.0"
