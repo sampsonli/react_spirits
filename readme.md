@@ -22,7 +22,7 @@ spirits(store, asyncReducers); // asyncReducers是老版本维护的所有reduce
 ~~~
 4. 定义model
 ~~~javascript
-import store from '~/store';
+import {connect} from 'react-spirits';
 const model = {
     ns: 'eval',
     state: {
@@ -44,7 +44,7 @@ const model = {
         },
     },
 };
-export default store.connect(model);
+export default connect(model);
 ~~~
 5. 使用spirits
 ~~~jsx harmony
