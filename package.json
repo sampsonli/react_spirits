@@ -1,7 +1,7 @@
 {
   "name": "@react/avatar",
   "version": "1.0.0",
-  "description": "react avatar",
+  "description": "react avatar 模块化",
   "main": "dist/index.js",
   "author": "sampsonli",
   "license": "MIT",
