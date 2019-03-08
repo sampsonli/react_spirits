@@ -9,16 +9,16 @@
 6. 维护简单
 
 ## 使用方法
-1. 安装avatar
+1. 安装spirits
 ~~~bash
 yarn add react-spirits
 ~~~
 2. 获取store
-3. 注入avatar
+3. 注入spirits
 ~~~javascript
-import avatar from 'react-spirits';
+import spirits from 'react-spirits';
 const store = createStore();
-avatar(store, asyncReducers); // asyncReducers是老版本维护的所有reducer， 新开项目可以不用传
+spirits(store, asyncReducers); // asyncReducers是老版本维护的所有reducer， 新开项目可以不用传
 ~~~
 4. 定义model
 ~~~javascript
@@ -46,15 +46,11 @@ const model = {
 };
 export default store.connect(model);
 ~~~
-5. 使用avatar
+5. 使用spirits
 ~~~jsx harmony
 import React, { Component } from 'react';
 import P from 'prop-types';
 import { connect } from 'react-redux';
-
-import Scroll from '~/common/scroll';
-
-import style from './style.css';
 import model from '../../models/test';
 
 export default

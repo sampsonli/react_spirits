@@ -1,9 +1,11 @@
 {
   "name": "react-spirits",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "react spirits redux 模块化",
   "main": "dist/index.js",
   "author": "sampsonli",
+  "keywords": ["react", "redux", "spirits", "按需加载", "模块化"],
+  "homepage": "https://github.com/sampsonli/react_spirits",
   "license": "MIT",
   "scripts": {
     "build": "babel src --out-dir dist"
