@@ -1,0 +1,19 @@
+{
+  "name": "@react/avatar",
+  "version": "1.0.0",
+  "description": "react avatar",
+  "main": "dist/index.js",
+  "author": "sampsonli",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel index.js --out-dir dist"
+  },
+  "peerDependencies": {
+    "redux": ">=2.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4"
+  }
+}
