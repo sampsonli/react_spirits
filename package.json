@@ -1,6 +1,6 @@
 {
   "name": "react-spirits",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "react spirits redux 模块化",
   "main": "dist/index.js",
   "author": "sampsonli",
