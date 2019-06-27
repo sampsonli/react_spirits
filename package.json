@@ -1,21 +1,29 @@
 {
   "name": "react-spirits",
-  "version": "1.0.3",
+  "version": "2.0.1",
   "description": "react spirits redux 模块化",
-  "main": "dist/index.js",
+  "main": "dist/main.js",
   "author": "sampsonli",
-  "keywords": ["react", "redux", "spirits", "按需加载", "模块化"],
+  "keywords": [
+    "react",
+    "redux",
+    "spirits",
+    "按需加载",
+    "模块化"
+  ],
   "homepage": "https://github.com/sampsonli/react_spirits",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --out-dir dist"
+    "build": "tsc"
   },
+  "typings": "./index.d.ts",
+  "unpkg": "dist/main.js",
+  "module": "src/main.ts",
   "peerDependencies": {
     "redux": ">=2.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4"
+    "typescript": "^3.5.2",
+    "redux": ">=2.0.0"
   }
 }
