@@ -1,6 +1,6 @@
 {
   "name": "react-spirits",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "react spirits redux 模块化",
   "main": "dist/main.js",
   "author": "sampsonli",
@@ -18,7 +18,7 @@
   },
   "typings": "./index.d.ts",
   "unpkg": "dist/main.js",
-  "module": "src/main.ts",
+  "module": "dist/main.ts",
   "peerDependencies": {
     "redux": ">=2.0.0"
   },
