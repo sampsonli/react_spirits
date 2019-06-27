@@ -24,3 +24,6 @@ interface Method {
 interface Methods {
     [propName: string]: Method
 }
+interface Connect {
+    (model: Model): Methods
+}
