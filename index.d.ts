@@ -1,3 +1,5 @@
+import {connect} from "./src";
+
 interface Model  {
     ns: string,
     state: any,
@@ -26,4 +28,8 @@ interface Methods {
 }
 interface Connect {
     (model: Model): Methods
+}
+export declare const connect: Connect;
+export default interface Spirits {
+    (store: any, asyncReducers?:any): Methods
 }

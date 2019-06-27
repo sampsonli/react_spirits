@@ -1,9 +1,10 @@
 
 import {combineReducers} from 'redux';
+
 declare const module:any;
 let _store = undefined;
 let _asyncReducers = undefined;
-export const connect: Connect = (model: Model): Methods => {
+export const connect = (model) => {
     if(_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;

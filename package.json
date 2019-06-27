@@ -1,8 +1,7 @@
 {
   "name": "react-spirits",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "react spirits redux 模块化",
-  "main": "dist/main.js",
   "author": "sampsonli",
   "keywords": [
     "react",
@@ -16,9 +15,8 @@
   "scripts": {
     "build": "tsc"
   },
-  "typings": "./index.d.ts",
-  "unpkg": "dist/main.js",
-  "module": "dist/main.ts",
+  "main": "./lib/index.js",
+  "typings": "./ndex.d.ts",
   "peerDependencies": {
     "redux": ">=2.0.0"
   },
