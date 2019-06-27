@@ -1,4 +1,3 @@
-import {connect} from "./src";
 
 interface Model  {
     ns: string,
