@@ -40,7 +40,6 @@ exports.connect = function (model) {
             return state;
         };
         injectReducer(model.ns, reducer);
-        // @ts-ignore
         var actions_1 = { ns: model.ns };
         Object.keys(model.actions).forEach(function (key) {
             var originFn = model.actions[key];

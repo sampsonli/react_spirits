@@ -7,8 +7,8 @@ interface Model<T>  {
         [propName: string]: Commit
     },
 }
-type Actions = {
-    [propName: string]: Action
+type Actions<T> = {
+    [propName in keyof T]: Action
 }
 interface Commit {
     (state: any, payload: any): any
@@ -22,5 +22,5 @@ type Context = {
 interface Action {
     (payload: any, context?: Context): any
 }
-declare function connect<T extends Actions>(model: Model<Actions>): T
+export function connect<T extends Actions<T>>(model: Model<T>): T
 export default function (store: any, asyncReducers?:any):any
