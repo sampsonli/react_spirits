@@ -30,8 +30,7 @@ export const connect = (model) => {
             return state;
         };
         injectReducer(model.ns, reducer);
-        // @ts-ignore
-        const actions: Methods = {ns: model.ns};
+        const actions = {ns: model.ns};
         Object.keys(model.actions).forEach((key) => {
             const originFn = model.actions[key];
             actions[key] = (payload, test) => {

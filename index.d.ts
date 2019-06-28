@@ -1,13 +1,14 @@
 
-interface Model  {
+interface Model<T>  {
     ns: string,
     state: any,
-    actions: {
-        [propName: string]: Action
-    },
+    actions: T,
     mutations: {
         [propName: string]: Commit
     },
+}
+type Actions = {
+    [propName: string]: Action
 }
 interface Commit {
     (state: any, payload: any): any
@@ -15,20 +16,11 @@ interface Commit {
 type Context = {
     commit: Commit,
     dispatch: any,
+    state: object,
+    rootState: object
 }
 interface Action {
     (payload: any, context?: Context): any
 }
-interface Method {
-    (payload: any, test: any): any
-}
-interface Methods {
-    [propName: string]: Method
-}
-interface Connect {
-    (model: Model): Methods
-}
-export declare const connect: Connect;
-export default interface Spirits {
-    (store: any, asyncReducers?:any): Methods
-}
+declare function connect<T extends Actions>(model: Model<Actions>): T
+export default function (store: any, asyncReducers?:any):any
