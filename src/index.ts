@@ -1,10 +1,28 @@
 
 import {combineReducers} from 'redux';
-
-declare const module:any;
 let _store = undefined;
 let _asyncReducers = undefined;
-export const connect = (model) => {
+
+declare const module;
+
+
+interface Model<T, S>  {
+    ns: string,
+    state: S,
+    actions: T,
+    mutations: {
+        [propName: string]: (state: S, payload: any) => any
+    },
+}
+interface Actions {
+    [propName:string]: (this: {
+        commit: any,
+        dispatch: any,
+        state: object,
+        rootState: object
+    }, payload: any) => any
+}
+export function connect<T extends Actions | object, K extends object>(model: Model<T, K>): T {
     if(_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;
@@ -30,7 +48,7 @@ export const connect = (model) => {
             return state;
         };
         injectReducer(model.ns, reducer);
-        const actions = {ns: model.ns};
+        const actions = {...model.actions, ns: model.ns};
         Object.keys(model.actions).forEach((key) => {
             const originFn = model.actions[key];
             actions[key] = (payload, test) => {
