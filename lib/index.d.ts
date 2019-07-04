@@ -1,21 +1,24 @@
-interface Model<A, S> {
+interface Context {
+    commit: (mName: string, payload?: any) => any;
+    dispatch: (actionType: string, payload?: any) => any;
+    state: object;
+    rootState: object;
+}
+interface Act {
+    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+}
+interface Mt<S> {
+    [fname: string]: (this: S, payload?: object, state?: S) => any;
+}
+export declare function connect<S extends object, M extends Mt<S>, A extends Act>(model: {
     ns: string;
+    act: A;
+    mt: M;
     state: S;
-    actions: A;
-    mutations: {
-        [propName: string]: (state: S, payload: any) => any;
-    };
-}
-interface Actions {
-    [propName: string]: (this: {
-        commit: any;
-        dispatch: any;
-        state: object;
-        rootState: object;
-    }, payload: any) => any;
-}
-export declare function connect<A extends Actions | object, S extends object>(model: Model<A, S>): A | {
+}): {
     ns: string;
+    act: A;
+    mt: M;
 };
 declare const _default: (store: any, asyncReducers?: {}) => void;
 export default _default;

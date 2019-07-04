@@ -30,15 +30,15 @@ const model = {
         newsList: null,
         abc: 123,
     },
-    mutations: {
-        setNewsList(state, list) {
-            state.newsList = list;
+    mt: {
+        setNewsList(list) {
+            this.newsList = list;
         },
-        changeAbc(state, payload) {
-            state.abc = payload;
+        changeAbc(payload) {
+            this.abc = payload;
         },
     },
-    actions: {
+    act: {
         getUserInfo(payload, {commit}) {
             commit('changeAbc', payload);
             //or this.commit('changeAbc', payload);
@@ -62,7 +62,7 @@ class App extends Component {
     }
     changeColor = () => {
         const num = Math.random() * 1000000;
-        model.getUserInfo(num);
+        model.act.getUserInfo(num);
     }
 
     render() {
