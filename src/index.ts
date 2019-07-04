@@ -6,10 +6,10 @@ let _asyncReducers = undefined;
 declare const module;
 
 
-interface Model<T, S>  {
+interface Model<A, S>  {
     ns: string,
     state: S,
-    actions: T,
+    actions: A,
     mutations: {
         [propName: string]: (state: S, payload: any) => any
     },
@@ -22,7 +22,7 @@ interface Actions {
         rootState: object
     }, payload: any) => any
 }
-export function connect<T extends Actions | object, K extends object>(model: Model<T, K>): T {
+export function connect<A extends Actions | object, S extends object>(model: Model<A, S>): A|{ns: string} {
     if(_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;
