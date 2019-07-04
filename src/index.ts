@@ -12,10 +12,16 @@ interface Context {
     rootState: object,
 }
 interface Act {
-    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+    [fname: string]: (this: Context|Act, payload?: any, context?: Context) => any;
 }
 interface Mt<S> {
-    [fname: string]: (this: S, payload?: object, state?: S) => any;
+    [fname: string]: (this: S|Mt<S>, payload?: any, state?: S) => any;
+}
+type OAct<A> = {
+    [act in keyof A]: A[act]
+}
+type OMt<M> = {
+    [mt in keyof M]: M[mt]
 }
 
 export function connect<S extends object, M extends Mt<S>, A extends Act>(model: {
@@ -23,7 +29,7 @@ export function connect<S extends object, M extends Mt<S>, A extends Act>(model:
     act: A,
     mt: M,
     state: S
-}): {act: A, mt: M, ns: string} {
+}): {act: OAct<A>, mt: OMt<M>, ns: string} {
     if(_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;

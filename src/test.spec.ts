@@ -1,15 +1,18 @@
 
 
 import {connect} from './'
-connect({
+const tmp = connect({
     ns: 'hello',
     state: {
         aa: null,
-        bb: 124
+        bb: 124,
+        cc: 333
     },
     act: {
         getAa(payload) {
             this.commit('set', 1111)
+
+
 
         }
     },
@@ -17,7 +20,9 @@ connect({
         setAa(payload) {
             // this.aa = payload
             this.aa = payload
+            this.bb =444
 
         }
     }
-}).act.getAa('hello')
+});
+tmp.act.getAa({})
