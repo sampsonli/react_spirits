@@ -1,11 +1,11 @@
-interface Context {
-    commit: (mName: string, payload?: any) => any;
+interface Context<M> {
+    commit: (mName: keyof M, payload?: any) => any;
     dispatch: (actionType: string, payload?: any) => any;
     state: object;
     rootState: object;
 }
-interface Act {
-    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+interface Act<M> {
+    [fname: string]: (this: Context<M>, payload?: any, context?: Context<M>) => any;
 }
 interface Mt<S> {
     [fname: string]: (this: S, payload?: any, state?: S) => any;
@@ -16,15 +16,15 @@ declare type OAct<A> = {
 declare type OMt<M> = {
     [mt in keyof M]: (payload?: any) => any;
 };
-export declare function connect<S extends object, M extends Mt<S>, A extends Act>(model: {
-    ns: string;
-    act: A;
-    mt: M;
+export declare function connect<S extends object, N extends string>(model: {
+    ns: N;
+    act: Act<Mt<S>>;
+    mt: Mt<S>;
     state: S;
 }): {
-    act: OAct<A>;
-    mt: OMt<M>;
-    ns: string;
+    act: OAct<Act<Mt<S>>>;
+    mt: OMt<Mt<S>>;
+    ns: N;
 };
 declare const _default: (store: any, asyncReducers?: {}) => void;
 export default _default;
