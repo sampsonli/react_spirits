@@ -12,18 +12,17 @@ interface Context {
     rootState: object,
 }
 interface Act {
-    [fname: string]: (this: Context|Act, payload?: any, context?: Context) => any;
+    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
 }
 interface Mt<S> {
-    [fname: string]: (this: S|Mt<S>, payload?: any, state?: S) => any;
+    [fname: string]: (this: S, payload?: any, state?: S) => any;
 }
-type OAct<A> = {
-    [act in keyof A]: A[act]
-}
-type OMt<M> = {
-    [mt in keyof M]: M[mt]
-}
-
+declare type OAct<A> = {
+    [act in keyof A]: (payload?:any) => any;
+};
+declare type OMt<M> = {
+    [mt in keyof M]: (payload?:any) => any;
+};
 export function connect<S extends object, M extends Mt<S>, A extends Act>(model: {
     ns: string,
     act: A,
