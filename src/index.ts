@@ -5,14 +5,14 @@ let _asyncReducers = undefined;
 
 declare const module;
 
-interface Context {
-    commit: (mName: string, payload?: any) => any;
+interface Context<M> {
+    commit: (mName: keyof M, payload?: any) => any;
     dispatch: (actionType: string, payload?: any) => any;
     state: object
     rootState: object,
 }
-interface Act {
-    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+interface Act<M> {
+    [fname: string]: (this: Context<M>, payload?: any, context?: Context<M>) => any;
 }
 interface Mt<S> {
     [fname: string]: (this: S, payload?: any, state?: S) => any;
@@ -23,12 +23,12 @@ declare type OAct<A> = {
 declare type OMt<M> = {
     [mt in keyof M]: (payload?:any) => any;
 };
-export function connect<S extends object, M extends Mt<S>, A extends Act>(model: {
-    ns: string,
-    act: A,
-    mt: M,
+export function connect<S extends object, N extends string>(model: {
+    ns: N,
+    act: Act<Mt<S>>,
+    mt: Mt<S>,
     state: S
-}): {act: OAct<A>, mt: OMt<M>, ns: string} {
+}): {act: OAct<Act<Mt<S>>>, mt: OMt<Mt<S>>, ns: N} {
     if(_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;
@@ -43,7 +43,7 @@ export function connect<S extends object, M extends Mt<S>, A extends Act>(model:
             console.error('模块命名重复，可能会引发未知错误');
         }
         const mutations = {};
-        const mt = {} as M;
+        const mt = {} as Mt<S>;
         Object.keys(model.mt).forEach((key) => {
             mutations[`${model.ns}@${key}`] = model.mt[key];
             //@ts-ignore
@@ -57,7 +57,7 @@ export function connect<S extends object, M extends Mt<S>, A extends Act>(model:
             return state;
         };
         injectReducer(model.ns, reducer);
-        const actions = {...model.act} as A;
+        const actions = {...model.act} as Act<Mt<S>>;
         Object.keys(model.act).forEach((key) => {
             const originFn = model.act[key];
             //@ts-ignore

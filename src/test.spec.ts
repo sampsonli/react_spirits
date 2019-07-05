@@ -9,9 +9,9 @@ const tmp = connect({
         cc: 333
     },
     act: {
-        getAa(payload) {
+        getAa(payload, context) {
             this.commit('set', 1111)
-
+            this.commit('hello world', 333)
 
 
         }
@@ -19,8 +19,9 @@ const tmp = connect({
     mt: {
         setAa(payload) {
             // this.aa = payload
-            this.aa = payload
-            this.bb =444
+            this.bb = payload
+            this.cc = 1;
+
 
         }
     }
