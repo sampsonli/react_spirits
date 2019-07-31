@@ -12,7 +12,7 @@ interface Context {
     rootState: object,
 }
 interface Act {
-    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+    [fname: string]: (this: Context|any, payload?: any, context?: Context) => any;
 }
 interface Mt<S> {
     [fname: string]: (this: S, payload?: any, state?: S) => any;
@@ -56,7 +56,7 @@ export function connect<S extends object, M extends Mt<S>, A extends Act, N exte
             }
             return state;
         };
-        injectReducer(model.ns, reducer);
+
         const actions = {...model.act} as A;
         Object.keys(model.act).forEach((key) => {
             const originFn = model.act[key];
@@ -81,6 +81,12 @@ export function connect<S extends object, M extends Mt<S>, A extends Act, N exte
                 return originFn.bind(avatar)(payload, avatar);
             };
         });
+        if(actions._init && !_asyncReducers[model.ns]) {
+            injectReducer(model.ns, reducer);
+            actions._init()
+        } else {
+            injectReducer(model.ns, reducer);
+        }
         return {ns: model.ns, act: actions, mt};
     } else {
         throw new Error('spirits 未初始化, 请先调用 spirits(store)')

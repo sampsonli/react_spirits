@@ -5,7 +5,7 @@ interface Context {
     rootState: object;
 }
 interface Act {
-    [fname: string]: (this: Context, payload?: any, context?: Context) => any;
+    [fname: string]: (this: Context | any, payload?: any, context?: Context) => any;
 }
 interface Mt<S> {
     [fname: string]: (this: S, payload?: any, state?: S) => any;
