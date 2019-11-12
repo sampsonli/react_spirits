@@ -1,97 +1,74 @@
-
 import {combineReducers} from 'redux';
+
 let _store = undefined;
 let _asyncReducers = undefined;
 
 declare const module;
 
-interface Context {
-    commit: (mName: string, payload?: any) => any;
-    dispatch: (actionType: string, payload?: any) => any;
-    state: object
-    rootState: object,
+interface T extends Object{
 }
-interface Act {
-    [fname: string]: (this: Context|any, payload?: any, context?: Context) => any;
+
+interface R<N>  extends T{
+    ns: N
 }
-interface Mt<S> {
-    [fname: string]: (this: S, payload?: any, state?: S) => any;
-}
-declare type OAct<A> = {
-    [act in keyof A]: (payload?:any) => any;
-};
-declare type OMt<M> = {
-    [mt in keyof M]: (payload?:any) => any;
-};
-export function connect<S extends object, M extends Mt<S>, A extends Act, N extends string>(model: {
-    ns: N,
-    act: A,
-    mt: M,
-    state: S
-}): {act: OAct<A>, mt: OMt<M>, ns: N} {
-    if(_store) {
+
+export function connect<N>(ns: N) {
+    if (_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;
             _store.replaceReducer(combineReducers({
                 ..._asyncReducers,
             }));
         };
-        if (!model.ns || !model.mt || !model.act) {
-            throw new Error('model 不符合规范，至少需要包含ns,mt,act 字段');
-        }
-        if (_asyncReducers[model.ns] && !module.hot) {
+        if (_asyncReducers[ns] && !module.hot) {
             console.error('模块命名重复，可能会引发未知错误');
         }
-        const mutations = {};
-        const mt = {} as M;
-        Object.keys(model.mt).forEach((key) => {
-            mutations[`${model.ns}@${key}`] = model.mt[key];
-            //@ts-ignore
-            mt[key] = (payload) => _store.dispatch({type: mt, payload});
-        });
-        const reducer = (state = model.state || {}, {type, payload}) => {
-            if (mutations[type]) {
-                const curr = {...state};
-                return mutations[type].bind(curr)(payload, curr) || curr;
-            }
-            return state;
-        };
-
-        const actions = {...model.act} as A;
-        Object.keys(model.act).forEach((key) => {
-            const originFn = model.act[key];
-            //@ts-ignore
-            actions[key] = (payload, test) => {
-                if (test) {
-                    throw new Error('参数传递错误， 不能传多个参数， 建议全部参数放入第一个参数中');
-                }
-                const state = _store.getState();
-                const avatar = {
-                    state: state[model.ns],
-                    rootState: state,
-                    commit: (mt, pd) => {
-                        if (model.mt[mt]) {
-                            _store.dispatch({type: `${model.ns}@${mt}`, payload: pd});
-                        } else {
-                            _store.dispatch({type: mt, payload: pd});
-                        }
-                    },
-                    actions,
+        return function (clazz: T) { // 注入 clazz 代表目标类
+            return function (): R<N> {  // 构造函数, 返回新的类
+                // @ts-ignore
+                const result = new clazz();
+                result.ns = ns;
+                // @ts-ignore
+                const actions = clazz.prototype.__actions || {};
+                const mutations = {}
+                Object.keys(actions).forEach(func => {
+                    mutations[`${ns}/${func}`] = actions[func]
+                })
+                const reducer = (state = result, {type, payload}) => {
+                    if (mutations[type]) {
+                        const curr = {...state};
+                        return mutations[type].bind(curr)(payload) || curr;
+                    }
+                    return state;
                 };
-                return originFn.bind(avatar)(payload, avatar);
-            };
-        });
-        if(actions._init && !_asyncReducers[model.ns]) {
-            injectReducer(model.ns, reducer);
-            actions._init()
-        } else {
-            injectReducer(model.ns, reducer);
+                injectReducer(ns, reducer);
+
+
+                return result;
+
+
+            }
+
         }
-        return {ns: model.ns, act: actions, mt};
     } else {
         throw new Error('spirits 未初始化, 请先调用 spirits(store)')
     }
+
+
 }
+
+export function action(clazz, act) {
+    if(clazz.__actions) {
+        clazz.__actions[act] = clazz[act]
+    } else {
+        clazz.__actions = {[act]: clazz[act]}
+    }
+    clazz[act] = function (payload) {
+        _store.dispatch({ type: this.ns + "/" + act, payload: payload });
+    };
+    return clazz[act]
+}
+
 export default (store, asyncReducers = {}) => {
     _store = store
     _asyncReducers = asyncReducers
