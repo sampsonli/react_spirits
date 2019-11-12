@@ -5,14 +5,7 @@ let _asyncReducers = undefined;
 
 declare const module;
 
-interface T extends Object{
-}
-
-interface R<N>  extends T{
-    ns: N
-}
-
-export function connect<N>(ns: N) {
+export function connect<N>(ns: N): Function {
     if (_store) {
         const injectReducer = (key, reducer) => {
             _asyncReducers[key] = reducer;
@@ -23,12 +16,10 @@ export function connect<N>(ns: N) {
         if (_asyncReducers[ns] && !module.hot) {
             console.error('模块命名重复，可能会引发未知错误');
         }
-        return function (clazz: T) { // 注入 clazz 代表目标类
-            return function (): R<N> {  // 构造函数, 返回新的类
-                // @ts-ignore
+        return function (clazz) { // 注入 clazz 代表目标类
+            return function () {  // 构造函数, 返回新的类
                 const result = new clazz();
                 result.ns = ns;
-                // @ts-ignore
                 const actions = clazz.prototype.__actions || {};
                 const mutations = {}
                 Object.keys(actions).forEach(func => {
