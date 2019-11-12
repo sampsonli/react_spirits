@@ -1,12 +1,13 @@
 {
-  "name": "react-spirits",
-  "version": "4.0.0",
-  "description": "react spirits redux 模块化",
+  "name": "react-deliverer",
+  "version": "1.0.0",
+  "description": "react deliverer redux 模块化 拯救者",
   "author": "sampsonli",
   "keywords": [
     "react",
     "redux",
-    "spirits",
+    "deliverer",
+    "react拯救者",
     "按需加载",
     "模块化"
   ],
