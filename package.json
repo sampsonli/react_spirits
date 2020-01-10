@@ -7,6 +7,7 @@
     "react",
     "redux",
     "spirits",
+    "react-redux",
     "按需加载",
     "模块化"
   ],
